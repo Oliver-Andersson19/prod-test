@@ -2,11 +2,19 @@ import Express from "express";
 import cors from "cors"
 import http from "http"; // Import the built-in 'http' module for HTTP server
 import "dotenv/config";
+import { fileURLToPath } from 'url';
+import path from 'path';
 
 import routes from "./src/router/routes.js";
 
-const app = Express();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const clientPath = path.join(__dirname + "/../client")
+
+
+
+const app = Express();
 const IP = process.env.BACKEND_IP
 const PORT = process.env.BACKEND_PORT
 
@@ -15,7 +23,7 @@ app.use(cors());
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: false }));
 
-// app.use(Express.static(chatBotClientPath));
+app.use(Express.static(clientPath));
 
 
 app.use("/api", routes);
