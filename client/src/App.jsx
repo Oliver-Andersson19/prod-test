@@ -69,22 +69,6 @@ function App() {
             </div>)
           })}
 
-          <div className="chat-you-bubble">Horunge</div>
-          <div className="chat-you-bubble">Horunge</div>
-          <div className="chat-other-bubble">Horunge</div>
-          <div className="chat-other-bubble">Horunge</div>
-          <div className="chat-other-bubble">Horunge</div>
-          <div className="chat-other-bubble">Horunge</div>
-          <div className="chat-other-bubble">Horunge</div>
-          <div className="chat-other-bubble">Horunge</div>
-          <div className="chat-other-bubble">Horunge</div>
-          <div className="chat-you-bubble">Horunge</div>
-          <div className="chat-you-bubble">Horunge</div>
-          <div className="chat-you-bubble">Horunge</div>
-          <div className="chat-you-bubble">Horunge</div>
-          <div className="chat-you-bubble">Horunge</div>
-          <div className="chat-you-bubble">Horunge</div>
-
         </div>
         <div className="input-wrapper">
           <input type="text" placeholder='Message...' value={msg} onChange={(e) => setMsg(e.target.value)} onKeyDown={handleKeyPress}/>
