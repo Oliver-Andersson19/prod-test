@@ -1,19 +1,29 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { socket } from './socket';
 
 function App() {
 
   const [isConnected, setIsConnected] = useState(socket.connected);
-
   const [msgList, setMsgList] = useState([])
   const [msg, setMsg] = useState("")
+  const chatLogRef = useRef(null);
 
-  console.log(import.meta.env.VITE_SOCKET_URL)
+  
 
   const sendMessage = () => {
-    socket.emit('message', {msg: msg, id: socket.id}); // Emit the message event
-    setMsg(""); // Clear the input field after sending
+    if (msg.trim()) {
+      socket.emit('message', { msg: msg, id: socket.id }); // Emit the message event
+      setMsg(""); // Clear the input field after sending
+    }
   }
+
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  };
+
 
   useEffect(() => {
     function onConnect() {
@@ -39,10 +49,16 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (chatLogRef.current) {
+      chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
+    }
+  }, [msgList]);
+
   return (
     <div className='page-wrapper'>
       <div className="chat-wrapper">
-        <div className="chat-log">
+        <div className="chat-log" ref={chatLogRef}>
           
           {msgList.map((data, i) => {
             return (<div
@@ -53,9 +69,25 @@ function App() {
             </div>)
           })}
 
+          <div className="chat-you-bubble">Horunge</div>
+          <div className="chat-you-bubble">Horunge</div>
+          <div className="chat-other-bubble">Horunge</div>
+          <div className="chat-other-bubble">Horunge</div>
+          <div className="chat-other-bubble">Horunge</div>
+          <div className="chat-other-bubble">Horunge</div>
+          <div className="chat-other-bubble">Horunge</div>
+          <div className="chat-other-bubble">Horunge</div>
+          <div className="chat-other-bubble">Horunge</div>
+          <div className="chat-you-bubble">Horunge</div>
+          <div className="chat-you-bubble">Horunge</div>
+          <div className="chat-you-bubble">Horunge</div>
+          <div className="chat-you-bubble">Horunge</div>
+          <div className="chat-you-bubble">Horunge</div>
+          <div className="chat-you-bubble">Horunge</div>
+
         </div>
         <div className="input-wrapper">
-          <input type="text" placeholder='Message...' value={msg} onChange={(e) => setMsg(e.target.value)}/>
+          <input type="text" placeholder='Message...' value={msg} onChange={(e) => setMsg(e.target.value)} onKeyDown={handleKeyPress}/>
           <button onClick={sendMessage}></button>
         </div>
       </div>
