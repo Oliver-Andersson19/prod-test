@@ -4,6 +4,7 @@ import http from "http"; // Import the built-in 'http' module for HTTP server
 import "dotenv/config";
 import { fileURLToPath } from 'url';
 import path from 'path';
+import { Server } from 'socket.io';
 
 import routes from "./src/router/routes.js";
 
@@ -31,6 +32,30 @@ app.use("/api", routes);
 
 const httpServer = http.createServer(app);
 
+const io = new Server(httpServer, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"]
+    }
+});
+
+const msgList = []
+
+io.on('connection', (socket) => {
+    console.log('User connected:', socket.id);
+
+    socket.emit("message", msgList)
+
+    socket.on('message', (data) => {
+      console.log(socket.id + ': ' + data.msg);
+      msgList.push(data)
+      io.emit('message', msgList);
+    });
+  
+    socket.on('disconnect', () => {
+      console.log('user disconnected');
+    });
+});
 
 httpServer.listen(PORT, IP, () => {
     console.log(`HTTP Running at: ${IP}:${PORT}`);
