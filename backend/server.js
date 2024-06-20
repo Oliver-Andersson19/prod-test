@@ -1,14 +1,14 @@
 import Express from "express";
 import cors from "cors"
 import http from "http"; // Import the built-in 'http' module for HTTP server
+import "dotenv/config";
 
 import routes from "./src/router/routes.js";
 
 const app = Express();
 
-const IP = "192.168.0.196";
-const PORT = 8080;
-const HTTPPORT = 8081;
+const IP = process.env.BACKEND_IP
+const PORT = process.env.BACKEND_PORT
 
 
 app.use(cors());
@@ -21,9 +21,9 @@ app.use(Express.urlencoded({ extended: false }));
 app.use("/api", routes);
 
 
-
 const httpServer = http.createServer(app);
 
-httpServer.listen(HTTPPORT, IP, () => {
-    console.log(`HTTP Running at: ${IP}:${HTTPPORT}`);
+
+httpServer.listen(PORT, IP, () => {
+    console.log(`HTTP Running at: ${IP}:${PORT}`);
 });
