@@ -8,7 +8,7 @@ function App() {
   const [msgList, setMsgList] = useState([])
   const [msg, setMsg] = useState("")
 
-  console.log(msgList)
+  console.log(import.meta.env.VITE_SOCKET_URL)
 
   const sendMessage = () => {
     socket.emit('message', {msg: msg, id: socket.id}); // Emit the message event
